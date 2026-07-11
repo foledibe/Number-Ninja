@@ -13,7 +13,23 @@ def choose_difficulty():
     print("3) Hard   (1-200, 5 guesses)")
 
     choice = input("Enter 1, 2, or 3: ")
-    return DIFFICULTIES.get(choice, DIFFICULTIES["2"])  # default to Medium
+    return DIFFICULTIES.get(choice, DIFFICULTIES["2"])
+
+def get_valid_guess(low, high):
+    """Keep asking until the player types a real number in range."""
+    while True:
+        raw_input_value = input(f"Your guess ({low}-{high}): ")
+        try:
+            guess = int(raw_input_value)
+        except ValueError:
+            print("That's not a number — try again.")
+            continue
+
+        if guess < low or guess > high:
+            print(f"Pick a number between {low} and {high}.")
+            continue
+
+        return guess
 
 def play_game():
     print("Welcome to Number Ninja!")
@@ -26,7 +42,7 @@ def play_game():
     print(f"You have {attempts_left} guesses. Good luck!\n")
 
     while attempts_left > 0:
-        guess = int(input("Your guess: "))
+        guess = get_valid_guess(1, difficulty["range"])
         attempts_left -= 1
 
         if guess < secret_number:
