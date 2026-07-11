@@ -1,10 +1,34 @@
 import random
+import json
+import os
 
 DIFFICULTIES = {
     "1": {"name": "Easy", "range": 50, "attempts": 10},
     "2": {"name": "Medium", "range": 100, "attempts": 7},
     "3": {"name": "Hard", "range": 200, "attempts": 5},
 }
+
+SCORES_FILE = "high_scores.json"
+
+def load_high_scores():
+    if not os.path.exists(SCORES_FILE):
+        return {}
+    with open(SCORES_FILE, "r") as f:
+        return json.load(f)
+
+def save_high_scores(scores):
+    with open(SCORES_FILE, "w") as f:
+        json.dump(scores, f, indent=2)
+
+def update_high_score(difficulty_name, attempts_used):
+    scores = load_high_scores()
+    current_best = scores.get(difficulty_name)
+
+    if current_best is None or attempts_used < current_best:
+        scores[difficulty_name] = attempts_used
+        save_high_scores(scores)
+        return True  # new record!
+    return False
 
 def choose_difficulty():
     print("\nChoose a difficulty:")
@@ -16,7 +40,6 @@ def choose_difficulty():
     return DIFFICULTIES.get(choice, DIFFICULTIES["2"])
 
 def get_valid_guess(low, high):
-    """Keep asking until the player types a real number in range."""
     while True:
         raw_input_value = input(f"Your guess ({low}-{high}): ")
         try:
@@ -36,7 +59,8 @@ def play_game():
     difficulty = choose_difficulty()
 
     secret_number = random.randint(1, difficulty["range"])
-    attempts_left = difficulty["attempts"]
+    total_attempts = difficulty["attempts"]
+    attempts_left = total_attempts
 
     print(f"\nI'm thinking of a number between 1 and {difficulty['range']}.")
     print(f"You have {attempts_left} guesses. Good luck!\n")
@@ -50,7 +74,12 @@ def play_game():
         elif guess > secret_number:
             print(f"Too high! ({attempts_left} guesses left)")
         else:
-            print("🎉 You got it!")
+            attempts_used = total_attempts - attempts_left
+            print(f"🎉 You got it in {attempts_used} guesses!")
+
+            is_record = update_high_score(difficulty["name"], attempts_used)
+            if is_record:
+                print("🏆 New high score for this difficulty!")
             return
 
     print(f"\nOut of guesses! The number was {secret_number}.")
