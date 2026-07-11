@@ -84,5 +84,17 @@ def play_game():
 
     print(f"\nOut of guesses! The number was {secret_number}.")
 
+def main():
+    print("=" * 40)
+    print("           NUMBER NINJA 🥷")
+    print("=" * 40)
+
+    while True:
+        play_game()
+        again = input("\nPlay again? (y/n): ").strip().lower()
+        if again != "y":
+            print("Thanks for playing! 👋")
+            break
+
 if __name__ == "__main__":
-    play_game()
+    main()
