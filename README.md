@@ -20,7 +20,7 @@ Choose a difficulty level, enter your guesses, and try to find the correct numbe
 
 ## Tech Used
 
-- Python 3
+- Python
 - JSON for data persistence
 
 ## What I Learned
