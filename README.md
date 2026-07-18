@@ -4,11 +4,11 @@ A simple command-line number guessing game built with Python. The game lets play
 
 ## Features
 
-- 🎚️ Three difficulty levels (Easy, Medium, Hard)
-- 💡 Higher/lower hints after every guess
-- ✅ Input validation to prevent crashes from invalid input
-- 🏆 High scores that are saved between game sessions
-- 🔁 Option to play multiple rounds without restarting the program
+- Three difficulty levels (Easy, Medium, Hard)
+- Higher/lower hints after every guess
+- Input validation to prevent crashes from invalid input
+- High scores that are saved between game sessions
+- Option to play multiple rounds without restarting the program
 
 ## How to Play
 
